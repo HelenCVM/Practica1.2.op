@@ -1,0 +1,44 @@
+#pragma once
+
+#include <iostream>
+#include <cstdlib>
+#include <cstring>
+#include <cmath>
+#include <vector>
+#include <fstream>
+#include <sstream>
+#include<algorithm>
+//listado de directorio
+# include <opencv2/dirent.h>
+
+// Cuando se carga la cabecer opencv.hpp automáticamente se cargan las demás cabeceras
+//#include <opencv2/opencv.hpp>
+
+#include <opencv2/core/core.hpp> // Contiene los elementos básicos como el objeto Mat (matriz que representa la imagen)
+#include <opencv2/highgui/highgui.hpp> // Contiene los elementos para crear una interfaz gráfica básica
+// OpenCV no está pensado para crear interfaces gráficas potentes. Se centra en la visión artificial y PDI. Si se desea crear una interfaz gráfica completa, se debe usar QT
+
+#include <opencv2/imgcodecs/imgcodecs.hpp> // Contiene las funcionalidad para acceder a los códecs que permiten leer diferentes formatos de imagen (JPEG, JPEG-2000, PNG, TIFF, GIF, etc.)
+
+// Librerías para acceder al video y para poder escribir vídeos en disco
+#include <opencv2/video/video.hpp> 
+#include <opencv2/videoio/videoio.hpp>
+
+#include <opencv2/imgproc/imgproc.hpp> // Librería para realizar operaciones de PDI 
+
+
+using namespace std;
+using namespace cv;
+
+class Histograma
+{
+public:
+	Histograma(string);
+	vector <string> listarDirectorio(string); //la clase vector es la equivalente del arraylist en java
+	vector<int>CalculoHistograma(vector <string>,vector<string>);
+	void CalcularHistogramaHSV(vector<string>);
+	void Distancia(vector<string>, vector<string>);
+	void Train(vector<string>);
+private:
+	string path;
+};

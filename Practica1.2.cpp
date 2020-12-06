@@ -7,7 +7,7 @@
 int main(int argc, char* argv[])
 {
 	Histograma* histograma = new Histograma("Probando");
-	vector <string> lista = histograma->listarDirectorio("C:/Disco Helen/Universidad/8vo/Vision-por-computador/Utilizable/Icons-50");
+	vector <string> lista = histograma->listarDirectorio("C:/Disco Helen/Universidad/8vo/Vision-por-computador/Utilizable/Icons-501");
 	//vector <string> listaHSV = histograma->listarDirectorio("C:/Users/helen/Downloads/Icons-50/airplane/");
 
 	//histograma->CalculoHistograma(lista);

@@ -39,7 +39,7 @@ void Histograma::Train(vector <string> listaima) {
 		//	cout << "Mat" << imagen;
 		count += 1;
 
-		string dire = "C:/Disco Helen/Universidad/8vo/Vision-por-computador/Utilizable/Icons-50/" + listaima[i] + "/";
+		string dire = "C:/Disco Helen/Universidad/8vo/Vision-por-computador/Utilizable/Icons-501/" + listaima[i] + "/";
 		//cout << "dire" << dire;
 
 		list = listarDirectorio(dire);
@@ -161,17 +161,22 @@ vector<int> Histograma::CalculoHistograma(vector <string> train, vector <string>
 		// Imprimimos el tamaño del histograma
 
 		cout << "Filas: " << histoB.rows << " Columnas: " << histoB.cols << " Canales: " << histoB.channels() << endl;
-		cout << "Primera canal";
+		
 
-		cout << "Tercera canal";
+		cout << "Histograma test";
+		cout << "Primer canal";
 		for (int i = 0; i < histoR.rows; i++) {
-			cout << "Histograma test Rojo" << histoR.at<float>(i, 0) << ",";
+			cout  << histoR.at<float>(i, 0) << ",";
 		}
+
+		cout << "Segundo canal";
 		for (int i = 0; i < histoG.rows; i++) {
-			cout << "Histograma test Verde" << histoG.at<float>(i, 0) << ",";
+			cout << histoG.at<float>(i, 0) << ",";
 		}
+
+		cout << "Tercer canal";
 		for (int i = 0; i < histoB.rows; i++) {
-			cout << "Histograma test Blu"  << histoB.at<float>(i, 0) << ",";
+			cout   << histoB.at<float>(i, 0) << ",";
 		}
 		cout << endl;
 
@@ -202,16 +207,22 @@ vector<int> Histograma::CalculoHistograma(vector <string> train, vector <string>
 
 		// Imprimimos el tamaño del histograma
 
+		cout << "Histograma train";
 		cout << "Filas: " << histoBtrain.rows << " Columnas: " << histoBtrain.cols << " Canales: " << histoBtrain.channels() << endl;
 		
+		cout << "Primer canal";
 		for (int i = 0; i < histoRtrain.rows; i++) {
-			cout << "Histograma train Rojo" << histoRtrain.at<float>(i, 0) << ",";
+			cout << histoRtrain.at<float>(i, 0) << ",";
 		}
+
+		cout << "Segundo canal";
 		for (int i = 0; i < histoGtrain.rows; i++) {
-			cout << "Histograma train Verde" << histoGtrain.at<float>(i, 0) << ",";
+			cout << histoGtrain.at<float>(i, 0) << ",";
 		}
+
+		cout << "Tercer canal";
 		for (int i = 0; i < histoBtrain.rows; i++) {
-			cout<< "Histograma train Blu" << histoBtrain.at<float>(i, 0) << ",";
+			cout << histoBtrain.at<float>(i, 0) << ",";
 		}
 		cout << endl;
 
@@ -234,83 +245,81 @@ vector<int> Histograma::CalculoHistograma(vector <string> train, vector <string>
 	int sumatoriaBlu = 0;
 	int sumatoriaGr = 0;
 
-	int sumaTotal = 0;
-
+	int sumaTotal ;
+	String path;
+	vector<int> trainPath;
+	vector<int> NumMax;
 	for (size_t i = 0; i < test.size(); i++)
 	{
 		for (size_t j = 0; j < train.size(); j++)
 		{
-			restRojo = (histoR.at<float>(i, 0) - histoRtrain.at<float>(j, 0));
-			restBlu = (histoB.at<float>(i, 0) - histoBtrain.at<float>(j, 0));
-			restGr = (histoG.at<float>(i, 0) - histoGtrain.at<float>(j, 0));
-				//rest = (histoB.at<float>(i, 0) - histoG.at<float>(i, 0) - histoR.at<float>(i, 0));
-			cout << "rojo" << restRojo;
-			potenciaRojo = (restRojo * restRojo);
-			potenciaBlu = (restBlu * restBlu);
-			potenciaGr = (restGr * restGr);
+			for (size_t x = 0; x < 256; x++)
+			{
+				
+					restRojo = (histoR.at<float>(x, 0) - histoRtrain.at<float>(x, 0));
+					restBlu = (histoB.at<float>(x, 0) - histoBtrain.at<float>(x, 0));
+					restGr = (histoG.at<float>(x, 0) - histoGtrain.at<float>(x, 0));
+					//rest = (histoB.at<float>(i, 0) - histoG.at<float>(i, 0) - histoR.at<float>(i, 0));
+					potenciaRojo = (restRojo * restRojo);
+					potenciaBlu = (restBlu * restBlu);
+					potenciaGr = (restGr * restGr);	
+			}
 
-
+			
+			path = test[i] + "->suma total";
+			sumatoriaRojo = sumatoriaRojo + potenciaRojo;
+			sumatoriaBlu = sumatoriaBlu + potenciaBlu;
+			sumatoriaGr = sumatoriaGr + potenciaGr;
+			sumRojo = sqrt(sumatoriaRojo);
+			sumGr = sqrt(sumatoriaGr);
+			sumBlu = sqrt(sumatoriaBlu);
+			sumaTotal = sumRojo + sumBlu + sumGr;
+			
 		}
-		sumatoriaRojo = sumatoriaRojo + potenciaRojo;
-		sumatoriaBlu = sumatoriaBlu + potenciaBlu;
-		sumatoriaGr = sumatoriaGr + potenciaGr;
-		sumRojo = sqrt(sumatoriaRojo);
-		sumGr = sqrt(sumatoriaGr);
-		sumBlu = sqrt(sumatoriaBlu);
-		sumaTotal = sumRojo + sumBlu + sumGr;
 
+
+		
+		
+		//trainPath.push_back(path + sumaTotal);
+		trainList.push_back(sumaTotal);
+		cout << "path <<<<<<<<<<<<<<<<<<<<<" << path << sumaTotal;
+		cout << endl;
+		//cout << "Suma Total" << sumaTotal;
+		
 
 	}
 
-	trainList.push_back(sumaTotal);
 	int smallest_element = *min_element(trainList.begin(), trainList.end());
-	cout << endl;
-	cout << "Suma Total" << sumaTotal;
 	cout << "resta Rojo:  " << restRojo << "  Potencias Rojo: " << potenciaRojo << "  Sumatoria Rojo:" << sumatoriaRojo << " Raiz Rojo: " << sumRojo << endl;
-	cout << "resta Azul:  " << restBlu << "  Potencias Azul: " << potenciaGr << "  Sumatoria Azul:" << sumatoriaBlu << " Raiz Azul: " << sumGr << endl;
+	cout << "resta Azul:  " << restBlu << "  Potencias Azul: " << potenciaBlu << "  Sumatoria Azul:" << sumatoriaBlu << " Raiz Azul: " << sumBlu << endl;
 	cout << "resta Verde:  " << restGr << "  Potencias Verde: " << potenciaGr << "  Sumatoria Verde:" << sumatoriaGr << " Raiz Verde: " << sumGr << endl;
-	cout << "Lista de distancias" << trainList[0];
-	cout << "Minimo" << smallest_element;
+	//cout << "Lista de distancias" << trainList[0];
+	cout << "Acierto";
+	cout << "Minimo " << smallest_element << " true";
+	cout << endl;
+	
+
+	for (size_t i = 0; i < trainList.size(); i++)
+	{
+		cout << "Lista de sumas" << trainList[i];
+		cout << endl;
+		if (smallest_element < trainList[i]) {
+			NumMax.push_back(trainList[i]);
+		}
+	}
+
+	int coutt = 0;
+	for (size_t i = 0; i < NumMax.size(); i++)
+	{
+		cout << "Maximos o desaciertos " << NumMax[i] << " false";
+		cout << endl;
+		coutt += 1;
+	}
+
+	cout << "Numero de falses: " << coutt;
 
 
 	return trainList;
 }
-
-void Histograma::CalcularHistogramaHSV(vector <string> listaimagenes) {
-	cout << "Metodo de HSV";
-	for (size_t i = 2; i < listaimagenes.size(); i++)
-	{
-		Mat imagahsv = imread("C:/Users/Portal Center/Documents/Uni/Octavo/VisionCompu/cc++/Practica2/Practica2/garfield/" + listaimagenes[i], IMREAD_UNCHANGED);
-
-		Mat hsv;
-		cvtColor(imagahsv, hsv, COLOR_BGR2HSV);
-		//imshow("HSV",hsv);
-		for (int i = 0; i < 256; i++) {
-			histoHSV[i] = 0;
-		}
-		int pixel = 0;
-		int max = 0;
-		for (int i = 0; i < hsv.rows; i++) {
-			for (int j = 0; j < hsv.cols; j++) {
-				pixel = hsv.at<uchar>(i, j);
-				histoHSV[pixel]++;
-			}
-		}
-		// Imprimimos el histograma
-		/*for (int i = 0; i < 256; i++) {
-			cout << histoHSV[i] << ";";
-		}*/
-		waitKey(0);
-		cout << " Imagenes: " << listaimagenes[i] << " columnas: " << hsv.rows << " Filas: " << hsv.cols << endl;
-
-	}
-
-
-}
-
-void Histograma::Distancia(vector<string>train, vector<string>test) {
-	 //git
-}
-
 
 
